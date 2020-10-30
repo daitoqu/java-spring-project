@@ -22,6 +22,6 @@ public class ServerTest {
         mvc.perform(MockMvcRequestBuilders.get("/greeting")
         .accept(MediaType.APPLICATION_JSON))
         .andExpect(MockMvcResultMatchers.status().isOk())
-        .andExpect(MockMvcResultMatchers.content().string("{\"id\":1,\"content\":\"Hello, World\"}"));
+        .andExpect(MockMvcResultMatchers.content().string("{\"id\":1,\"cont1ent\":\"Hello, World\"}"));
     }
 }
