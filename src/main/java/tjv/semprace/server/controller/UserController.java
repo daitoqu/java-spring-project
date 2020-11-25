@@ -31,12 +31,12 @@ public class UserController {
     }
 
     @PostMapping("/user")
-    UserDTO save(@RequestBody UserCreateDTO author) throws Exception {
-        return userService.create(author);
+    UserDTO save(@RequestBody UserCreateDTO user) throws Exception {
+        return userService.create(user);
     }
 
     @PutMapping("/user/{id}")
-    UserDTO save(@PathVariable int id, @RequestBody UserCreateDTO author) throws Exception {
-        return userService.update(id, author);
+    UserDTO save(@PathVariable int id, @RequestBody UserCreateDTO user) throws Exception {
+        return userService.update(id, user);
     }
 }
