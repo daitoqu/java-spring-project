@@ -4,12 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tjv.semprace.server.dto.PostCreateDTO;
 import tjv.semprace.server.dto.PostDTO;
-import tjv.semprace.server.dto.UserCreateDTO;
-import tjv.semprace.server.dto.UserDTO;
-import tjv.semprace.server.entity.Comment;
 import tjv.semprace.server.entity.Post;
 import tjv.semprace.server.entity.User;
-import tjv.semprace.server.repository.CommentRepository;
 import tjv.semprace.server.repository.PostRepository;
 import tjv.semprace.server.repository.UserRepository;
 
@@ -21,12 +17,12 @@ import java.util.stream.Collectors;
 public class PostService {
 
     private final PostRepository postRepository;
-    private final UserRepository userRepository;
+    private final UserService userService;
 
     @Autowired
-    public PostService(PostRepository postRepository, UserRepository userRepository) {
+    public PostService(PostRepository postRepository, UserService userService) {
         this.postRepository = postRepository;
-        this.userRepository = userRepository;
+        this.userService = userService;
     }
 
     public List<PostDTO> findAll() {
@@ -50,7 +46,7 @@ public class PostService {
 
     @Transactional
     public PostDTO create(PostCreateDTO postCreateDTO) throws Exception {
-        Optional<User> author = userRepository.findById(postCreateDTO.getAuthorId());
+        Optional<User> author = userService.findById(postCreateDTO.getAuthorId());
         if (author.isEmpty())
             throw new Exception("No such user found");
 
@@ -64,7 +60,7 @@ public class PostService {
         Optional<Post> oldPost = postRepository.findById(id);
         if (oldPost.isEmpty())
             throw new Exception("No such post found");
-        Optional<User> newAuthor = userRepository.findById(postCreateDTO.getAuthorId());
+        Optional<User> newAuthor = userService.findById(postCreateDTO.getAuthorId());
         if (newAuthor.isEmpty())
             throw new Exception("No such user found");
         Post post = oldPost.get();
