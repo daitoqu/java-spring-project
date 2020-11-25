@@ -5,9 +5,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import tjv.semprace.server.dto.UserCreateDTO;
+import tjv.semprace.server.dto.UserCreateNewDTO;
 import tjv.semprace.server.dto.UserDTO;
 import tjv.semprace.server.service.UserService;
 
+import java.util.Collections;
 import java.util.List;
 
 @RestController
@@ -30,9 +32,9 @@ public class UserController {
         return userService.findByIdAsDTO(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
-    @PostMapping("/user")
-    UserDTO save(@RequestBody UserCreateDTO user) throws Exception {
-        return userService.create(user);
+    @PostMapping("/new_user")
+    UserDTO save(@RequestBody UserCreateNewDTO user) throws Exception {
+        return userService.create(new UserCreateDTO(user.getFirstName(), user.getLastName(), Collections.emptyList()));
     }
 
     @PutMapping("/user/{id}")
