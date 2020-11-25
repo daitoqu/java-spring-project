@@ -18,16 +18,12 @@ public class Post {
     @NotNull
     private String content;
 
-    @OneToMany(mappedBy = "rootPost")
-    private List<Comment> comments;
-
     public Post() {
     }
 
-    public Post(User author, String content, List<Comment> comments) {
+    public Post(User author, String content) {
         this.author = author;
         this.content = content;
-        this.comments = comments;
     }
 
     public int getId() {
@@ -48,13 +44,5 @@ public class Post {
 
     public void setContent(String content) {
         this.content = content;
-    }
-
-    public List<Comment> getComments() {
-        return comments;
-    }
-
-    public void setComments(List<Comment> comments) {
-        this.comments = comments;
     }
 }

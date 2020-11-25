@@ -5,13 +5,11 @@ public class PostDTO {
     private final int id;
     private final Integer authorId;
     private final String content;
-    private final List<Integer> commentsIds;
 
-    public PostDTO(int id, Integer authorId, String content, List<Integer> commentsIds) {
+    public PostDTO(int id, Integer authorId, String content) {
         this.id = id;
         this.authorId = authorId;
         this.content = content;
-        this.commentsIds = commentsIds;
     }
 
     public int getId() {
@@ -24,9 +22,5 @@ public class PostDTO {
 
     public String getContent() {
         return content;
-    }
-
-    public List<Integer> getCommentsIds() {
-        return commentsIds;
     }
 }
