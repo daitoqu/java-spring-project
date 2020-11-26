@@ -1,0 +1,62 @@
+POST http://localhost:8080/new_user
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/json
+
+{"firstName": "John", "lastName": "Smith"}
+
+###
+
+POST http://localhost:8080/new_user
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/json
+
+{"firstName": "James", "lastName": "Smith"}
+
+###
+
+POST http://localhost:8080/new_user
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/json
+
+{"firstName": "John", "lastName": "Wayne"}
+
+###
+
+POST http://localhost:8080/new_post
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/json
+
+{"authorId": 1, "content":"This is post 1 by user 1"}
+
+###
+
+POST http://localhost:8080/new_post
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/json
+
+{"authorId": 1, "content":"This is post 2 by user 1"}
+
+###
+
+POST http://localhost:8080/new_post
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/json
+
+{"authorId": 3, "content":"This is post 1 by user 3"}
+
+###
+
+PUT http://localhost:8080/edit_post/6
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/json
+
+{"authorId": 3, "content":"This is post 1 by user 3 but edited"}
+
+###

@@ -30,12 +30,12 @@ public class PostController {
         return postService.findByIdAsDTO(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
-    @PostMapping("/post")
+    @PostMapping("/new_post")
     PostDTO save(@RequestBody PostCreateDTO post) throws Exception {
         return postService.create(post);
     }
 
-    @PutMapping("/post/{id}")
+    @PutMapping("/edit_post/{id}")
     PostDTO save(@PathVariable int id, @RequestBody PostCreateDTO post) throws Exception {
         return postService.update(id, post);
     }
