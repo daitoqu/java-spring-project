@@ -41,6 +41,13 @@ public class UserService {
         return toDTO(findById(id));
     }
 
+    public List<User> findAllFriends(Integer id) throws Exception {
+        Optional<User> user = userRepository.findById(id);
+        if (user.isEmpty())
+            throw new Exception("No such user found");
+        return user.get().getFriends();
+    }
+
     @Transactional
     public void addFriend(Integer user1id, Integer user2id) throws Exception {
         if (user1id == user2id)
