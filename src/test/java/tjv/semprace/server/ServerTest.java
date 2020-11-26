@@ -59,14 +59,24 @@ public class ServerTest {
 
     @Test
     public void UserServiceTest() throws Exception {
-        Optional<UserDTO> findUser = userService.findByIdAsDTO(1);
+        Optional<UserDTO> findUser = userService.findByIdAsDTO(user1.getId());
         assertThat(findUser.isEmpty()).isFalse();
         assertThat(findUser.get()).isEqualToComparingFieldByField(user1);
-        findUser = userService.findByIdAsDTO(2);
+        findUser = userService.findByIdAsDTO(user2.getId());
         assertThat(findUser.isEmpty()).isFalse();
         assertThat(findUser.get()).isEqualToComparingFieldByField(user2);
-        findUser = userService.findByIdAsDTO(3);
+        findUser = userService.findByIdAsDTO(user3.getId());
         assertThat(findUser.isEmpty()).isFalse();
         assertThat(findUser.get()).isEqualToComparingFieldByField(user3);
+
+        UserDTO user2new = new UserDTO(2, user2.getFirstName(), "Smith the Second", Collections.emptyList());
+        userService.update(user2new.getId(), new UserCreateDTO(user2new.getFirstName(), user2new.getLastName(), user2new.getFriendsIds()));
+        findUser = userService.findByIdAsDTO(user2new.getId());
+        assertThat(findUser.isEmpty()).isFalse();
+        assertThat(findUser.get()).isEqualToComparingFieldByField(user2new);
+
+        userService.delete(1);
+        findUser = userService.findByIdAsDTO(1);
+        assertThat(findUser.isEmpty()).isTrue();
     }
 }

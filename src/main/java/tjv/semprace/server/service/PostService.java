@@ -33,6 +33,27 @@ public class PostService {
                 .collect(Collectors.toList());
     }
 
+    public List<PostDTO> findAllByUser(Integer userId) {
+        List<PostDTO> allPosts = findAll();
+        List<PostDTO> postByUser = Collections.emptyList();
+        for (PostDTO post : allPosts) {
+            if (post.getAuthorId().equals(userId)) {
+                postByUser.add(post);
+            }
+        }
+        return postByUser;
+    }
+
+    @Transactional
+    public void deleteByUser(Integer userId) throws Exception {
+        List<PostDTO> allPosts = findAll();
+        for (PostDTO post : allPosts) {
+            if (post.getAuthorId().equals(userId)) {
+                delete(post.getId());
+            }
+        }
+    }
+
     public List<Post> findAllByIds(List<Integer> ids) {
         return postRepository.findAllById(ids);
     }

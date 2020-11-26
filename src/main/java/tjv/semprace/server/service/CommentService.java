@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tjv.semprace.server.dto.CommentCreateDTO;
 import tjv.semprace.server.dto.CommentDTO;
+import tjv.semprace.server.dto.PostDTO;
 import tjv.semprace.server.entity.Comment;
 import tjv.semprace.server.entity.Post;
 import tjv.semprace.server.entity.User;
@@ -35,6 +36,48 @@ public class CommentService {
                 .collect(Collectors.toList());
     }
 
+    public List<CommentDTO> findAllByUser(Integer userId) {
+        List<CommentDTO> allComments = findAll();
+        List<CommentDTO> commentsByUser = Collections.emptyList();
+        for (CommentDTO comment : allComments) {
+            if (comment.getAuthorId().equals(userId)) {
+                commentsByUser.add(comment);
+            }
+        }
+        return commentsByUser;
+    }
+
+    @Transactional
+    public void deleteByUser(Integer userId) throws Exception {
+        List<CommentDTO> allComments = findAll();
+        for (CommentDTO comment : allComments) {
+            if (comment.getAuthorId().equals(userId)) {
+                delete(comment.getId());
+            }
+        }
+    }
+
+    public List<CommentDTO> findAllByPost(Integer postId) {
+        List<CommentDTO> allComments = findAll();
+        List<CommentDTO> commentsByPost = Collections.emptyList();
+        for (CommentDTO comment : allComments) {
+            if (comment.getRootPostId().equals(postId)) {
+                commentsByPost.add(comment);
+            }
+        }
+        return commentsByPost;
+    }
+
+    @Transactional
+    public void deleteByPost(Integer postId) throws Exception {
+        List<CommentDTO> allComments = findAll();
+        for (CommentDTO comment : allComments) {
+            if (comment.getRootPostId().equals(postId)) {
+                delete(comment.getId());
+            }
+        }
+    }
+
     public List<Comment> findAllByIds(List<Integer> ids) {
         return commentRepository.findAllById(ids);
     }
@@ -46,6 +89,8 @@ public class CommentService {
     public Optional<CommentDTO> findByIdAsDTO(Integer id) {
         return toDTO(findById(id));
     }
+
+
 
     @Transactional
     public CommentDTO create(CommentCreateDTO commentCreateDTO) throws Exception {
