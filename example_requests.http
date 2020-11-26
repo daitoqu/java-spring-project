@@ -25,6 +25,22 @@ Content-Type: application/json
 
 ###
 
+PUT http://localhost:8080/edit_name/2
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/json
+
+{"firstName": "James", "lastName": "Smith The Second"}
+
+###
+
+PUT http://localhost:8080/del_friend/1/2
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/json
+
+###
+
 POST http://localhost:8080/new_post
 Accept: */*
 Cache-Control: no-cache
@@ -58,5 +74,14 @@ Cache-Control: no-cache
 Content-Type: application/json
 
 {"authorId": 3, "content":"This is post 1 by user 3 but edited"}
+
+###
+
+POST http://localhost:8080/new_comment
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/json
+
+{"authorId": 1, "rootPostId": 3, "content":"This is comment 1 by user 1 to post 4"}
 
 ###

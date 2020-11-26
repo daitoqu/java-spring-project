@@ -30,12 +30,17 @@ public class CommentController {
     }
 
     @PostMapping("/new_comment")
-    CommentDTO save(@RequestBody CommentCreateDTO comment) throws Exception {
+    CommentDTO newComment(@RequestBody CommentCreateDTO comment) throws Exception {
         return commentService.create(comment);
     }
 
     @PutMapping("/edit_comment/{id}")
-    CommentDTO save(@PathVariable int id, @RequestBody CommentCreateDTO comment) throws Exception {
+    CommentDTO editComment(@PathVariable int id, @RequestBody CommentCreateDTO comment) throws Exception {
         return commentService.update(id, comment);
+    }
+
+    @PutMapping("/del_comment/{id}")
+    void deleteComment(@PathVariable int id) throws Exception {
+        commentService.delete(id);
     }
 }

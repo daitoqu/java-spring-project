@@ -42,6 +42,48 @@ public class UserService {
     }
 
     @Transactional
+    public void addFriend(Integer user1id, Integer user2id) throws Exception {
+        if (user1id == user2id)
+            throw new Exception("Can't add yourself to friends");
+        Optional<User> user1opt = findById(user1id);
+        Optional<User> user2opt = findById(user2id);
+        if (user1opt.isEmpty() || user2opt.isEmpty())
+            throw new Exception("No such user");
+
+        User user1 = user1opt.get();
+        User user2 = user2opt.get();
+        if (user1.getFriends().contains(user2) || user2.getFriends().contains(user1))
+            throw new Exception("Already friends");
+        List<User> friends = user1.getFriends();
+        friends.add(user2);
+        user1.setFriends(friends);
+        friends = user2.getFriends();
+        friends.add(user1);
+        user2.setFriends(friends);
+    }
+
+    @Transactional
+    public void deleteFriend(Integer user1id, Integer user2id) throws Exception {
+        if (user1id == user2id)
+            throw new Exception("Can't delete yourself from friends");
+        Optional<User> user1opt = findById(user1id);
+        Optional<User> user2opt = findById(user2id);
+        if (user1opt.isEmpty() || user2opt.isEmpty())
+            throw new Exception("No such user");
+
+        User user1 = user1opt.get();
+        User user2 = user2opt.get();
+        if (!user1.getFriends().contains(user2) || !user2.getFriends().contains(user1))
+            throw new Exception("Already not friends");
+        List<User> friends = user1.getFriends();
+        friends.remove(user2);
+        user1.setFriends(friends);
+        friends = user2.getFriends();
+        friends.remove(user1);
+        user2.setFriends(friends);
+    }
+
+    @Transactional
     public UserDTO create(UserCreateDTO userCreateDTO) throws Exception {
         List<User> friends = userRepository.findAllById(userCreateDTO.getFriendsIds());
         if (friends.size() != userCreateDTO.getFriendsIds().size())
@@ -71,6 +113,15 @@ public class UserService {
         user.setFriends(friends);
 
         return toDTO(user);
+    }
+
+    @Transactional
+    public void delete(Integer id) throws Exception {
+        Optional<User> user = userRepository.findById(id);
+        if (user.isEmpty())
+            throw new Exception("No such user found");
+
+        userRepository.delete(user.get());
     }
 
     private UserDTO toDTO(User user) {

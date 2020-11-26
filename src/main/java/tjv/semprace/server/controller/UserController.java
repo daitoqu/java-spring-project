@@ -11,6 +11,7 @@ import tjv.semprace.server.service.UserService;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class UserController {
@@ -33,12 +34,26 @@ public class UserController {
     }
 
     @PostMapping("/new_user")
-    UserDTO save(@RequestBody UserCreateNewDTO user) throws Exception {
+    UserDTO newUser(@RequestBody UserCreateNewDTO user) throws Exception {
         return userService.create(new UserCreateDTO(user.getFirstName(), user.getLastName(), Collections.emptyList()));
     }
 
-    @PutMapping("/edit_user/{id}")
-    UserDTO save(@PathVariable int id, @RequestBody UserCreateDTO user) throws Exception {
-        return userService.update(id, user);
+    @PutMapping("/edit_name/{id}")
+    UserDTO editName(@PathVariable int id, @RequestBody UserCreateNewDTO user) throws Exception {
+        Optional<UserDTO> optUser = userService.findByIdAsDTO(id);
+        if (optUser.isEmpty())
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        UserCreateDTO editedUser = new UserCreateDTO(user.getFirstName(), user.getLastName(), optUser.get().getFriendsIds());
+        return userService.update(id, editedUser);
+    }
+
+    @PutMapping("/add_friend/{user1id}/{user2id}")
+    void addFriend(@PathVariable int user1id, @PathVariable int user2id) throws Exception {
+        userService.addFriend(user1id, user2id);
+    }
+
+    @PutMapping("/del_friend/{user1id}/{user2id}")
+    void delFiend(@PathVariable int user1id, @PathVariable int user2id) throws Exception {
+        userService.deleteFriend(user1id, user2id);
     }
 }

@@ -82,6 +82,13 @@ public class CommentService {
         return toDTO(comment);
     }
 
+    public void delete(Integer id) throws Exception {
+        Optional<Comment> comment = commentRepository.findById(id);
+        if (comment.isEmpty())
+            throw new Exception("No such comment found");
+        commentRepository.delete(comment.get());
+    }
+
     private CommentDTO toDTO(Comment comment) {
         return new CommentDTO(
                 comment.getId(),

@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tjv.semprace.server.dto.PostCreateDTO;
 import tjv.semprace.server.dto.PostDTO;
+import tjv.semprace.server.entity.Comment;
 import tjv.semprace.server.entity.Post;
 import tjv.semprace.server.entity.User;
 import tjv.semprace.server.repository.PostRepository;
@@ -70,6 +71,14 @@ public class PostService {
         post.setContent(postCreateDTO.getContent());
 
         return toDTO(post);
+    }
+
+    @Transactional
+    public void delete(Integer id) throws Exception {
+        Optional<Post> post = postRepository.findById(id);
+        if (post.isEmpty())
+            throw new Exception("No such post found");
+        postRepository.delete(post.get());
     }
 
     private PostDTO toDTO(Post post) {
