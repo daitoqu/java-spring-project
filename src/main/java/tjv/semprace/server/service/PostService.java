@@ -4,11 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tjv.semprace.server.dto.PostCreateDTO;
 import tjv.semprace.server.dto.PostDTO;
-import tjv.semprace.server.entity.Comment;
 import tjv.semprace.server.entity.Post;
 import tjv.semprace.server.entity.User;
 import tjv.semprace.server.repository.PostRepository;
-import tjv.semprace.server.repository.UserRepository;
 
 import javax.transaction.Transactional;
 import java.util.*;
