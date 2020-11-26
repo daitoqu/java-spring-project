@@ -14,6 +14,13 @@ public class UserDTO {
         this.friendsIds = friendsIds;
     }
 
+    public UserDTO(int id, UserCreateDTO userCreateDTO) {
+        this.id = id;
+        this.firstName = userCreateDTO.getFirstName();
+        this.lastName = userCreateDTO.getLastName();
+        this.friendsIds = userCreateDTO.getFriendsIds();
+    }
+
     public int getId() {
         return id;
     }

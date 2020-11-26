@@ -12,6 +12,12 @@ public class PostDTO {
         this.content = content;
     }
 
+    public PostDTO(int id, PostCreateDTO postCreateDTO) {
+        this.id = id;
+        this.authorId = postCreateDTO.getAuthorId();
+        this.content = postCreateDTO.getContent();
+    }
+
     public int getId() {
         return id;
     }

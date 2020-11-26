@@ -13,6 +13,13 @@ public class CommentDTO {
         this.content = content;
     }
 
+    public CommentDTO(int id, CommentCreateDTO commentCreateDTO) {
+        this.id = id;
+        this.authorId = commentCreateDTO.getAuthorId();
+        this.rootPostId = commentCreateDTO.getRootPostId();
+        this.content = commentCreateDTO.getContent();
+    }
+
     public int getId() {
         return id;
     }

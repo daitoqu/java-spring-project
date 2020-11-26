@@ -33,7 +33,7 @@ public class PostService {
 
     public List<PostDTO> findAllByUser(Integer userId) {
         List<PostDTO> allPosts = findAll();
-        List<PostDTO> postByUser = Collections.emptyList();
+        List<PostDTO> postByUser = new Vector<PostDTO>();
         for (PostDTO post : allPosts) {
             if (post.getAuthorId().equals(userId)) {
                 postByUser.add(post);

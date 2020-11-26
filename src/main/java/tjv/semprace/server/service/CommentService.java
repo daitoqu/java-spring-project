@@ -38,7 +38,7 @@ public class CommentService {
 
     public List<CommentDTO> findAllByUser(Integer userId) {
         List<CommentDTO> allComments = findAll();
-        List<CommentDTO> commentsByUser = Collections.emptyList();
+        List<CommentDTO> commentsByUser = new Vector<CommentDTO>();
         for (CommentDTO comment : allComments) {
             if (comment.getAuthorId().equals(userId)) {
                 commentsByUser.add(comment);
@@ -59,7 +59,7 @@ public class CommentService {
 
     public List<CommentDTO> findAllByPost(Integer postId) {
         List<CommentDTO> allComments = findAll();
-        List<CommentDTO> commentsByPost = Collections.emptyList();
+        List<CommentDTO> commentsByPost = new Vector<CommentDTO>();
         for (CommentDTO comment : allComments) {
             if (comment.getRootPostId().equals(postId)) {
                 commentsByPost.add(comment);

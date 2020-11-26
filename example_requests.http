@@ -82,6 +82,6 @@ Accept: */*
 Cache-Control: no-cache
 Content-Type: application/json
 
-{"authorId": 1, "rootPostId": 3, "content":"This is comment 1 by user 1 to post 4"}
+{"authorId": 1, "rootPostId": 5, "content":"This is comment 1 by user 1 to post 4"}
 
 ###
