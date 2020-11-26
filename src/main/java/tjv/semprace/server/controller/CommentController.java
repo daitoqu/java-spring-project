@@ -29,12 +29,12 @@ public class CommentController {
         return commentService.findByIdAsDTO(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
-    @PostMapping("/comment")
+    @PostMapping("/new_comment")
     CommentDTO save(@RequestBody CommentCreateDTO comment) throws Exception {
         return commentService.create(comment);
     }
 
-    @PutMapping("/comment/{id}")
+    @PutMapping("/edit_comment/{id}")
     CommentDTO save(@PathVariable int id, @RequestBody CommentCreateDTO comment) throws Exception {
         return commentService.update(id, comment);
     }

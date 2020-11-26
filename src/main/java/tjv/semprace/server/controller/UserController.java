@@ -37,7 +37,7 @@ public class UserController {
         return userService.create(new UserCreateDTO(user.getFirstName(), user.getLastName(), Collections.emptyList()));
     }
 
-    @PutMapping("/user/{id}")
+    @PutMapping("/edit_user/{id}")
     UserDTO save(@PathVariable int id, @RequestBody UserCreateDTO user) throws Exception {
         return userService.update(id, user);
     }
