@@ -50,7 +50,7 @@ public class PostController {
     }
 
     @DeleteMapping("/{id}")
-    void del(@PathVariable int id) throws Exception {
+    void delete(@PathVariable int id) throws Exception {
         try {
             postService.delete(id);
         } catch (Exception e) {
