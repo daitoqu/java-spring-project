@@ -117,7 +117,7 @@ public class CommentService {
             throw new Exception("No such user found");
         Optional<Post> newPost = postService.findById(commentCreateDTO.getRootPostId());
         if (newPost.isEmpty())
-            throw new Exception("No such user found");
+            throw new Exception("No such post found");
 
         Comment comment = oldComment.get();
         comment.setAuthor(newAuthor.get());

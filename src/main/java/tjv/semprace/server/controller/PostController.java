@@ -11,6 +11,7 @@ import tjv.semprace.server.service.PostService;
 import java.util.List;
 
 @RestController
+@RequestMapping("/posts")
 public class PostController {
 
     private final PostService postService;
@@ -20,23 +21,40 @@ public class PostController {
         this.postService = postService;
     }
 
-    @GetMapping("/post/all")
+    @GetMapping()
     List<PostDTO> all() {
         return postService.findAll();
     }
 
-    @GetMapping("/post/{id}")
+    @GetMapping("/{id}")
     PostDTO byId(@PathVariable int id) {
         return postService.findByIdAsDTO(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
-    @PostMapping("/new_post")
+    @PostMapping()
     PostDTO save(@RequestBody PostCreateDTO post) throws Exception {
-        return postService.create(post);
+        try {
+            return postService.create(post);
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        }
     }
 
-    @PutMapping("/edit_post/{id}")
+    @PutMapping("/{id}")
     PostDTO save(@PathVariable int id, @RequestBody PostCreateDTO post) throws Exception {
-        return postService.update(id, post);
+        try {
+            return postService.update(id, post);
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    void del(@PathVariable int id) throws Exception {
+        try {
+            postService.delete(id);
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        }
     }
 }

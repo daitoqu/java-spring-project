@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
+@RequestMapping("/users")
 public class UserController {
 
     private final UserService userService;
@@ -23,22 +24,26 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/user/all")
+    @GetMapping()
     List<UserDTO> all() {
         return userService.findAll();
     }
 
-    @GetMapping("/user/{id}")
+    @GetMapping("/{id}")
     UserDTO byId(@PathVariable int id) {
         return userService.findByIdAsDTO(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
-    @PostMapping("/new_user")
+    @PostMapping()
     UserDTO newUser(@RequestBody UserCreateNewDTO user) throws Exception {
-        return userService.create(new UserCreateDTO(user.getFirstName(), user.getLastName(), Collections.emptyList()));
+        try {
+            return userService.create(new UserCreateDTO(user.getFirstName(), user.getLastName(), Collections.emptyList()));
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        }
     }
 
-    @PutMapping("/edit_name/{id}")
+    @PutMapping("/{id}")
     UserDTO editName(@PathVariable int id, @RequestBody UserCreateNewDTO user) throws Exception {
         Optional<UserDTO> optUser = userService.findByIdAsDTO(id);
         if (optUser.isEmpty())
@@ -47,13 +52,30 @@ public class UserController {
         return userService.update(id, editedUser);
     }
 
-    @PutMapping("/add_friend/{user1id}/{user2id}")
-    void addFriend(@PathVariable int user1id, @PathVariable int user2id) throws Exception {
-        userService.addFriend(user1id, user2id);
+    @PutMapping("/{id}/friends")
+    void addFriend(@PathVariable int id, @RequestBody UserDTO friend) throws Exception {
+        try {
+            userService.addFriend(id, friend.getId());
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        }
     }
 
-    @PutMapping("/del_friend/{user1id}/{user2id}")
-    void delFiend(@PathVariable int user1id, @PathVariable int user2id) throws Exception {
-        userService.deleteFriend(user1id, user2id);
+    @DeleteMapping("/{id}/friends")
+    void delFiend(@PathVariable int id, @RequestBody UserDTO friend) throws Exception {
+        try {
+            userService.deleteFriend(id, friend.getId());
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    void delUser(@PathVariable int id) throws Exception {
+        try {
+            userService.delete(id);
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        }
     }
 }
