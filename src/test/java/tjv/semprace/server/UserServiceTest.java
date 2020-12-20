@@ -22,6 +22,10 @@ import java.util.Optional;
 public class UserServiceTest {
     @Autowired
     UserService userService;
+    @Autowired
+    PostService postService;
+    @Autowired
+    CommentService commentService;
 
     UserCreateDTO user1;
     Integer user1id;
@@ -42,7 +46,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void CreateRead() throws Exception {
+    public void CreateRead() {
         Optional<UserDTO> findUser = userService.findByIdAsDTO(user1id);
         assertThat(findUser.isEmpty()).isFalse();
         assertThat(findUser.get()).isEqualToComparingFieldByField(new UserDTO(user1id, user1));
