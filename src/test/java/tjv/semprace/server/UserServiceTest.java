@@ -73,4 +73,26 @@ public class UserServiceTest {
         Optional<UserDTO> findUser = userService.findByIdAsDTO(user1id);
         assertThat(findUser.isEmpty()).isTrue();
     }
+
+    @Test
+    public void AddFriends() throws Exception {
+        userService.addFriend(user1id, user2id);
+        userService.addFriend(user1id, user3id);
+        Optional<UserDTO> user1DTO = userService.findByIdAsDTO(user1id);
+        assertThat(user1DTO.isEmpty()).isFalse();
+        assertThat(user1DTO.get().getFriendsIds().size() == 2).isTrue();
+        assertThat(user1DTO.get().getFriendsIds().contains(user2id) && user1DTO.get().getFriendsIds().contains(user3id)).isTrue();
+    }
+
+    @Test
+    public void DelFriends() throws Exception {
+        userService.addFriend(user1id, user2id);
+        userService.addFriend(user1id, user3id);
+        userService.deleteFriend(user1id, user3id);
+        Optional<UserDTO> user1DTO = userService.findByIdAsDTO(user1id);
+        assertThat(user1DTO.isEmpty()).isFalse();
+        assertThat(user1DTO.get().getFriendsIds().size() == 1).isTrue();
+        assertThat(user1DTO.get().getFriendsIds().contains(user2id)).isTrue();
+        assertThat(user1DTO.get().getFriendsIds().contains(user3id)).isFalse();
+    }
 }
