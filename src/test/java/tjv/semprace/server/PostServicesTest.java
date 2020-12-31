@@ -75,7 +75,7 @@ public class PostServicesTest {
 
     @Test
     public void Update() throws Exception {
-        PostCreateDTO post3new = new PostCreateDTO( post3.getAuthorId(), "This is post 1 by user 3 but edited");
+        PostCreateDTO post3new = new PostCreateDTO(post3.getAuthorId(), "This is post 1 by user 3 but edited");
         postService.update(post3id, post3new);
         Optional<PostDTO> findPost = postService.findByIdAsDTO(post3id);
         assertThat(findPost.isEmpty()).isFalse();

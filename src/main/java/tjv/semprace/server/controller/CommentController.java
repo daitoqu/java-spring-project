@@ -59,4 +59,14 @@ public class CommentController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
     }
+
+    @DeleteMapping("/by_post/{postId}")
+    @ResponseStatus(HttpStatus.OK)
+    void deleteCommentsByPost(@PathVariable int postId) throws Exception {
+        try {
+            commentService.deleteByPost(postId);
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        }
+    }
 }
