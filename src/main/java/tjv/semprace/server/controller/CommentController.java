@@ -69,4 +69,14 @@ public class CommentController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
     }
+
+    @DeleteMapping("/by_user/{userId}")
+    @ResponseStatus(HttpStatus.OK)
+    void deleteCommentsByUser(@PathVariable int userId) throws Exception {
+        try {
+            commentService.deleteByUser(userId);
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        }
+    }
 }

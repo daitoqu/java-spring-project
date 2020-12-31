@@ -84,7 +84,6 @@ public class PostServicesTest {
 
     @Test
     public void Delete() throws Exception {
-        commentService.deleteByPost(post1id);
         postService.delete(post1id);
         Optional<PostDTO> findPost = postService.findByIdAsDTO(post1id);
         assertThat(findPost.isEmpty()).isTrue();

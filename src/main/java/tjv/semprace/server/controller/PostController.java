@@ -6,9 +6,12 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import tjv.semprace.server.dto.PostCreateDTO;
 import tjv.semprace.server.dto.PostDTO;
+import tjv.semprace.server.entity.Post;
+import tjv.semprace.server.service.CommentService;
 import tjv.semprace.server.service.PostService;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/posts")
@@ -16,9 +19,12 @@ public class PostController {
 
     private final PostService postService;
 
+    private final CommentService commentService;
+
     @Autowired
-    public PostController(PostService postService) {
+    public PostController(PostService postService, CommentService commentService) {
         this.postService = postService;
+        this.commentService = commentService;
     }
 
     @GetMapping()
@@ -51,6 +57,10 @@ public class PostController {
 
     @DeleteMapping("/{id}")
     void delete(@PathVariable int id) throws Exception {
+        Optional<Post> post = postService.findById(id);
+        if (post.isEmpty())
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Post not found.");
+        commentService.deleteByPost(post.get().getId());
         try {
             postService.delete(id);
         } catch (Exception e) {

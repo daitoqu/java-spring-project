@@ -23,7 +23,7 @@ import java.util.Collections;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class PostControllerTest {
+public class UserControllerTest {
     UserCreateNewDTO user1;
     Integer user1id;
     UserCreateNewDTO user2;
@@ -169,66 +169,66 @@ public class PostControllerTest {
     public void Read() throws Exception {
         mockMvc.perform(
                 MockMvcRequestBuilders
-                        .get("/posts/{id}", post1id)
+                        .get("/users/{id}", user1id)
         )
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.authorId", CoreMatchers.is(post1.getAuthorId())))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.content", CoreMatchers.is(post1.getContent())));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.firstName", CoreMatchers.is(user1.getFirstName())))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.lastName", CoreMatchers.is(user1.getLastName())));
 
         mockMvc.perform(
                 MockMvcRequestBuilders
-                        .get("/posts/{id}", post2id)
+                        .get("/users/{id}", user2id)
         )
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.authorId", CoreMatchers.is(post2.getAuthorId())))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.content", CoreMatchers.is(post2.getContent())));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.firstName", CoreMatchers.is(user2.getFirstName())))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.lastName", CoreMatchers.is(user2.getLastName())));
 
         mockMvc.perform(
                 MockMvcRequestBuilders
-                        .get("/posts/{id}", post3id)
+                        .get("/users/{id}", user3id)
         )
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.authorId", CoreMatchers.is(post3.getAuthorId())))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.content", CoreMatchers.is(post3.getContent())));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.firstName", CoreMatchers.is(user3.getFirstName())))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.lastName", CoreMatchers.is(user3.getLastName())));
 
         mockMvc.perform(
                 MockMvcRequestBuilders
-                        .get("/posts/{id}", 100)
+                        .get("/users/{id}", 100)
         )
                 .andExpect(MockMvcResultMatchers.status().isNotFound());
     }
 
     @Test
     public void Update() throws Exception {
-        PostCreateDTO post3new = new PostCreateDTO(post3.getAuthorId(), "This is post 1 by user 3 but edited");
+        UserCreateDTO user2new = new UserCreateDTO(user2.getFirstName(), "Smith the Second", Collections.emptyList());
         mockMvc.perform(
                 MockMvcRequestBuilders
-                        .put("/posts/{id}", post3id)
+                        .put("/users/{id}", user2id)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(gson.toJson(post3new))
+                        .content(gson.toJson(user2new))
         )
                 .andExpect(MockMvcResultMatchers.status().isOk());
 
         mockMvc.perform(
                 MockMvcRequestBuilders
-                        .get("/posts/{id}", post3id)
+                        .get("/users/{id}", user2id)
         )
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.authorId", CoreMatchers.is(post3new.getAuthorId())))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.content", CoreMatchers.is(post3new.getContent())));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.firstName", CoreMatchers.is(user2new.getFirstName())))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.lastName", CoreMatchers.is(user2new.getLastName())));
     }
 
     @Test
     public void Delete() throws Exception {
         mockMvc.perform(
                 MockMvcRequestBuilders
-                        .delete("/posts/{id}", post1id)
+                        .delete("/users/{id}", user1id)
         )
                 .andExpect(MockMvcResultMatchers.status().isOk());
 
         mockMvc.perform(
                 MockMvcRequestBuilders
-                        .get("/posts/{id}", post1id)
+                        .get("/users/{id}", user1id)
         )
                 .andExpect(MockMvcResultMatchers.status().isNotFound());
     }
