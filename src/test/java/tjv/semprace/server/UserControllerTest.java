@@ -21,6 +21,8 @@ import tjv.semprace.server.service.UserService;
 
 import java.util.Collections;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 @SpringBootTest
 @AutoConfigureMockMvc
 public class UserControllerTest {
@@ -231,5 +233,64 @@ public class UserControllerTest {
                         .get("/users/{id}", user1id)
         )
                 .andExpect(MockMvcResultMatchers.status().isNotFound());
+    }
+
+    @Test
+    public void AddFriend() throws Exception {
+        mockMvc.perform(
+                MockMvcRequestBuilders
+                        .put("/users/{userId}/{friendId}", user1id, user2id)
+        )
+                .andExpect(MockMvcResultMatchers.status().isOk());
+
+        mockMvc.perform(
+                MockMvcRequestBuilders
+                        .put("/users/{userId}/{friendId}", user1id, user3id)
+        )
+                .andExpect(MockMvcResultMatchers.status().isOk());
+
+        MvcResult mvcResult = mockMvc.perform(
+                MockMvcRequestBuilders
+                        .get("/users/{id}", user1id)
+        )
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andReturn();
+
+        UserDTO userDTO = gson.fromJson(mvcResult.getResponse().getContentAsString(), UserDTO.class);
+
+        assertThat(userDTO.getFriendsIds().contains(user2id) && userDTO.getFriendsIds().contains(user3id)).isTrue();
+    }
+
+    @Test
+    public void DelFriend() throws Exception {
+        mockMvc.perform(
+                MockMvcRequestBuilders
+                        .put("/users/{userId}/{friendId}", user1id, user2id)
+        )
+                .andExpect(MockMvcResultMatchers.status().isOk());
+
+        mockMvc.perform(
+                MockMvcRequestBuilders
+                        .put("/users/{userId}/{friendId}", user1id, user3id)
+        )
+                .andExpect(MockMvcResultMatchers.status().isOk());
+
+        mockMvc.perform(
+                MockMvcRequestBuilders
+                        .delete("/users/{userId}/{friendId}", user1id, user3id)
+        )
+                .andExpect(MockMvcResultMatchers.status().isOk());
+
+        MvcResult mvcResult = mockMvc.perform(
+                MockMvcRequestBuilders
+                        .get("/users/{id}", user1id)
+        )
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andReturn();
+
+        UserDTO userDTO = gson.fromJson(mvcResult.getResponse().getContentAsString(), UserDTO.class);
+
+        assertThat(userDTO.getFriendsIds().contains(user2id)).isTrue();
+        assertThat(userDTO.getFriendsIds().contains(user3id)).isFalse();
     }
 }

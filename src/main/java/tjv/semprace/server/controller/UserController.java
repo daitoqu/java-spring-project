@@ -61,25 +61,28 @@ public class UserController {
         return userService.update(id, editedUser);
     }
 
-    @PutMapping("/{id}/friends")
-    void addFriend(@PathVariable int id, @RequestBody UserDTO friend) throws Exception {
+    @PutMapping("/{userId}/{friendId}")
+    @ResponseStatus(HttpStatus.OK)
+    void addFriend(@PathVariable int userId, @PathVariable int friendId) throws Exception {
         try {
-            userService.addFriend(id, friend.getId());
+            userService.addFriend(userId, friendId);
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
     }
 
-    @DeleteMapping("/{id}/friends")
-    void delFriend(@PathVariable int id, @RequestBody UserDTO friend) throws Exception {
+    @DeleteMapping("/{userId}/{friendId}")
+    @ResponseStatus(HttpStatus.OK)
+    void delFriend(@PathVariable int userId, @PathVariable int friendId) throws Exception {
         try {
-            userService.deleteFriend(id, friend.getId());
+            userService.deleteFriend(userId, friendId);
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
     }
 
     @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
     void delUser(@PathVariable int id) throws Exception {
         try {
             commentService.deleteByUser(id);
