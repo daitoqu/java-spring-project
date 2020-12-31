@@ -2,12 +2,10 @@ package tjv.semprace.server;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import static org.assertj.core.api.Assertions.assertThat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import tjv.semprace.server.dto.*;
-import tjv.semprace.server.entity.Post;
 import tjv.semprace.server.service.CommentService;
 import tjv.semprace.server.service.PostService;
 import tjv.semprace.server.service.UserService;
@@ -16,10 +14,12 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class ServerTest {
+public class CommentServicesTest {
     @Autowired
     UserService userService;
     @Autowired
@@ -76,60 +76,7 @@ public class ServerTest {
     }
 
     @Test
-    public void UserServiceTest() throws Exception {
-        Optional<UserDTO> findUser = userService.findByIdAsDTO(user1id);
-        assertThat(findUser.isEmpty()).isFalse();
-        assertThat(findUser.get()).isEqualToComparingFieldByField(new UserDTO(user1id, user1));
-        findUser = userService.findByIdAsDTO(user2id);
-        assertThat(findUser.isEmpty()).isFalse();
-        assertThat(findUser.get()).isEqualToComparingFieldByField(new UserDTO(user2id, user2));
-        findUser = userService.findByIdAsDTO(user3id);
-        assertThat(findUser.isEmpty()).isFalse();
-        assertThat(findUser.get()).isEqualToComparingFieldByField(new UserDTO(user3id, user3));
-
-        UserCreateDTO user2new = new UserCreateDTO(user2.getFirstName(), "Smith the Second", Collections.emptyList());
-        userService.update(user2id, user2new);
-        findUser = userService.findByIdAsDTO(user2id);
-        assertThat(findUser.isEmpty()).isFalse();
-        assertThat(findUser.get()).isEqualToComparingFieldByField(new UserDTO(user2id, user2new));
-
-        commentService.deleteByUser(user1id);
-        List<PostDTO> userPosts = postService.findAllByUser(user1id);
-        for (PostDTO post : userPosts) {
-            commentService.deleteByPost(post.getId());
-        }
-        postService.deleteByUser(user1id);
-        userService.delete(user1id);
-        findUser = userService.findByIdAsDTO(user1id);
-        assertThat(findUser.isEmpty()).isTrue();
-    }
-
-    @Test
-    public void PostServiceTest() throws Exception {
-        Optional<PostDTO> findPost = postService.findByIdAsDTO(post1id);
-        assertThat(findPost.isEmpty()).isFalse();
-        assertThat(findPost.get()).isEqualToComparingFieldByField(new PostDTO(post1id, post1));
-        findPost = postService.findByIdAsDTO(post2id);
-        assertThat(findPost.isEmpty()).isFalse();
-        assertThat(findPost.get()).isEqualToComparingFieldByField(new PostDTO(post2id, post2));
-        findPost = postService.findByIdAsDTO(post3id);
-        assertThat(findPost.isEmpty()).isFalse();
-        assertThat(findPost.get()).isEqualToComparingFieldByField(new PostDTO(post3id, post3));
-
-        PostCreateDTO post3new = new PostCreateDTO( post3.getAuthorId(), "This is post 1 by user 3 but edited");
-        postService.update(post3id, post3new);
-        findPost = postService.findByIdAsDTO(post3id);
-        assertThat(findPost.isEmpty()).isFalse();
-        assertThat(findPost.get()).isEqualToComparingFieldByField(new PostDTO(post3id, post3new));
-
-        commentService.deleteByPost(post1id);
-        postService.delete(post1id);
-        findPost = postService.findByIdAsDTO(post1id);
-        assertThat(findPost.isEmpty()).isTrue();
-    }
-
-    @Test
-    public void TestCommentService() throws Exception {
+    public void CreateRead() throws Exception {
         Optional<CommentDTO> findComment = commentService.findByIdAsDTO(cmnt1id);
         assertThat(findComment.isEmpty()).isFalse();
         assertThat(findComment.get()).isEqualToComparingFieldByField(new CommentDTO(cmnt1id, cmnt1));
@@ -139,15 +86,21 @@ public class ServerTest {
         findComment = commentService.findByIdAsDTO(cmnt3id);
         assertThat(findComment.isEmpty()).isFalse();
         assertThat(findComment.get()).isEqualToComparingFieldByField(new CommentDTO(cmnt3id, cmnt3));
+    }
 
+    @Test
+    public void Update() throws Exception {
         CommentCreateDTO cmnt3new = new CommentCreateDTO(user1id, post3id, "Comment 3 but different");
         commentService.update(cmnt3id, cmnt3new);
-        findComment = commentService.findByIdAsDTO(cmnt3id);
+        Optional<CommentDTO> findComment = commentService.findByIdAsDTO(cmnt3id);
         assertThat(findComment.isEmpty()).isFalse();
         assertThat(findComment.get()).isEqualToComparingFieldByField(new CommentDTO(cmnt3id, cmnt3new));
+    }
 
+    @Test
+    public void Delete() throws Exception {
         commentService.delete(cmnt1id);
-        findComment = commentService.findByIdAsDTO(cmnt1id);
+        Optional<CommentDTO> findComment = commentService.findByIdAsDTO(cmnt1id);
         assertThat(findComment.isEmpty()).isTrue();
     }
 }

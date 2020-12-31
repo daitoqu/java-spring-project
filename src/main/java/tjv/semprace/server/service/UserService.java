@@ -10,6 +10,7 @@ import tjv.semprace.server.repository.UserRepository;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
+import java.util.Vector;
 import java.util.stream.Collectors;
 
 @Service
@@ -127,6 +128,15 @@ public class UserService {
         Optional<User> user = userRepository.findById(id);
         if (user.isEmpty())
             throw new Exception("No such user found");
+
+        List<Integer> friendsIds = new Vector<Integer>();
+        for (User friend : user.get().getFriends()) {
+            friendsIds.add(friend.getId());
+        }
+
+        for (Integer friendId : friendsIds) {
+            deleteFriend(id, friendId);
+        }
 
         userRepository.delete(user.get());
     }

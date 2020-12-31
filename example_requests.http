@@ -1,9 +1,17 @@
-POST http://localhost:8080/new_user
+POST http://localhost:8080/users
 Accept: */*
 Cache-Control: no-cache
 Content-Type: application/json
 
 {"firstName": "John", "lastName": "Smith"}
+
+###
+
+DELETE http://localhost:8080/users/2
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/json
+
 
 ###
 
@@ -77,7 +85,7 @@ Content-Type: application/json
 
 ###
 
-POST http://localhost:8080/new_comment
+POST http://localhost:8080/comments
 Accept: */*
 Cache-Control: no-cache
 Content-Type: application/json
