@@ -38,7 +38,7 @@ public class PostController {
     }
 
     @PostMapping()
-    PostDTO save(@RequestBody PostCreateDTO post) throws Exception {
+    PostDTO create(@RequestBody PostCreateDTO post) throws Exception {
         try {
             return postService.create(post);
         } catch (Exception e) {
@@ -47,7 +47,7 @@ public class PostController {
     }
 
     @PutMapping("/{id}")
-    PostDTO save(@PathVariable int id, @RequestBody PostCreateDTO post) throws Exception {
+    PostDTO edit(@PathVariable int id, @RequestBody PostCreateDTO post) throws Exception {
         try {
             return postService.update(id, post);
         } catch (Exception e) {
