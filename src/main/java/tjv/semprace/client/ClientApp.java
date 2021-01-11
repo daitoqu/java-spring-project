@@ -13,7 +13,6 @@ public class ClientApp {
 
     public static void main(String[] args) {
         SpringApplication app = new SpringApplication(ClientApp.class);
-        app.setDefaultProperties(Collections.singletonMap("server.port", "8084"));
         app.run(args);
     }
 
