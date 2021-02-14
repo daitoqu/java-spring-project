@@ -1,6 +1,5 @@
 # Minimalistic social network
 [![pipeline status](https://gitlab.fit.cvut.cz/alekhiva/bi-tjv-semprace/badges/master/pipeline.svg)](https://gitlab.fit.cvut.cz/BI-OOP/B201/asciiart)
-[![coverage report](https://gitlab.fit.cvut.cz/alekhiva/bi-tjv-semprace/badges/master/coverage.svg)](https://gitlab.fit.cvut.cz/BI-OOP/B201/asciiart/commits/master)
 
 ![alt text](https://i.imgur.com/zk8Y7Eo.png)
 
