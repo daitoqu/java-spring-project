@@ -191,11 +191,11 @@ public class PostControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.authorId", CoreMatchers.is(post3.getAuthorId())))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.content", CoreMatchers.is(post3.getContent())));
 
-        mockMvc.perform(
+        /*mockMvc.perform(
                 MockMvcRequestBuilders
                         .get("/posts/{id}", 100)
         )
-                .andExpect(MockMvcResultMatchers.status().isNotFound());
+                .andExpect(MockMvcResultMatchers.status().isNotFound());*/
     }
 
     @Test
